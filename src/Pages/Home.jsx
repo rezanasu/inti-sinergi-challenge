@@ -3,6 +3,7 @@ import BarChart from '../Components/BarChart';
 import PieChart from '../Components/PieChart';
 import {atom, useRecoilState} from "recoil";
 import Item from '../Components/Item';
+import {createItem} from "../actions";
 import './Styles.css'
 
 
@@ -164,6 +165,18 @@ function Home() {
         padding: "5px"
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        createItem({
+            name,
+            category: selectCategory,
+            availability: status
+        }).then(response => {
+            console.log(response);
+        })
+    }
+
 
     return(
         <div className='Home'>
@@ -188,12 +201,12 @@ function Home() {
                             <div style={{marginBottom: formMargin}}>
                                 <label htmlFor='category'>Category</label>
                                 <br />
-                                <select style={inputSelect} name="category" id="category" 
+                                <select defaultValue="none" style={inputSelect} name="category" id="category" 
                                     onChange={(e) => {
                                         setSelectCategory(e.target.value);
                                     }}
                                 >
-                                    <option disabled>Select Category</option>
+                                    <option disabled value="none">Select Category</option>
                                     <option value="Category 1">Category 1</option>
                                     <option value="Category 2">Category 2</option>
                                     <option value="Category 3">Category 3</option>
@@ -239,7 +252,7 @@ function Home() {
                             </div>
 
 
-                            <button style={buttonSubmit} type="submit">Submit Form</button>
+                            <button style={buttonSubmit} type="submit" onClick={handleSubmit}>Submit Form</button>
                         </form>
                     </div>
                 </div>
